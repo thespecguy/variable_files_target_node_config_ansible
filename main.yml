@@ -1,0 +1,20 @@
+- hosts: target_os
+  vars_files:
+    - "{{ ansible_facts['distribution'] }}.yml"
+
+  tasks:
+    - name: Webserver Installation
+      package:
+        name: "{{ webserver_package_name }}"
+        state: present
+
+    - name: Placing Web Page in Document Root
+      template:
+        dest: "/var/www/html/index.html"
+        src: "/t14_3/web_page/index.html"
+
+    - name: Enabling Webserver service
+      service:
+        name: "{{ service }}"
+        state: started
+        enabled: yes
